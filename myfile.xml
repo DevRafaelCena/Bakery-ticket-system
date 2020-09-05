@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<root>
+  <xmlbuilder>
+    <repo type="git">git://github.com/oozcitak/xmlbuilder-js.git</repo>
+  </xmlbuilder>
+</root>

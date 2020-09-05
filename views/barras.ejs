@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Barras</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="http://leandrolisura.com.br/wp-content/uploads/2017/12/bytescoutbarcode128_1.00.07.js"></script>
+  </head>
+
+
+<div class="jumbotron">
+  <h1 class="display-3">Ticket</h1>
+    <hr class="my-2">
+  
+ 
+        <img id="barcodeImage" class="codeBarImage" />
+
+
+    <div class="container">
+      <div class="row">
+      <col>
+
+      <div id='valor'><b>vem do serial</b></div>
+      <img id="barcodeImage" class="codeBarImage" />
+
+      </col>
+        </div>
+        
+      </div>
+
+    </div>
+
+</div>
+<script>
+    function updateBarcode(barCodeValue) {
+    barCodeValue = typeof barCodeValue !== 'undefined' ?  barCodeValue : '1234567890';
+    var barcode = new bytescoutbarcode128();
+    barcode.valueSet(barCodeValue);
+    barcode.setMargins(5, 5, 5, 5);
+    barcode.setBarWidth(2);
+    var width = barcode.getMinWidth();
+    barcode.setSize(width, 100);
+    var barcodeImage = $('#barcodeImage');
+    barcodeImage.attr('src', barcode.exportToBase64(width, 100, 0));
+}
+</script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+
+</html>

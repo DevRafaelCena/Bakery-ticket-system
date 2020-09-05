@@ -1,0 +1,7 @@
+{
+    "ENTRADA": "COM9",
+    "SAIDA": "COM2",
+    "TEMPOGIROHORARIO" : "10000",
+    "TEMPOANTGIROHORARIO" : "5000"
+   
+  }

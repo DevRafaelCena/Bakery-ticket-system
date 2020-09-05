@@ -1,0 +1,236 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+const socketIo = require("socket.io")
+var app = require('../app');
+var debug = require('debug')('sce-cenatec:server');
+var http = require('http');
+
+const SerialPort = require('serialport')
+
+/**
+ * Get port from environment and store in Express.
+ */
+
+var port = normalizePort(process.env.PORT || '3000');
+app.set('port', port);
+
+/**
+ * Create HTTP server.
+ */
+
+var server = http.createServer(app);
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+
+//cria xml
+var builder = require('xmlbuilder');
+ 
+var xml = builder.create('root')
+  .ele('xmlbuilder')
+    .ele('repo', {'type': 'git'}, 'git://github.com/oozcitak/xmlbuilder-js.git')
+  .end({ pretty: true});
+ 
+console.log(xml);
+
+comanda =xml
+
+var fs = require("fs");
+
+/* fs.open('./myfile.xml', 'wx', (err, xml) => {
+  if (err) {
+    if (err.code === 'EEXIST') {
+      console.error('myfile already exists');
+      fs.writeFile('./myfile.xml', comanda, (err) => {
+        if (err) throw err;
+        console.log('The file has been saved!');
+      });
+      return;
+    }
+
+    throw err;
+  }
+ 
+}); */
+
+  fs.writeFile('./comandasXML/myfile.xml', comanda, (err) => {
+    if (err) throw err;
+    console.log('The file has been saved!');
+  });
+
+
+const io = socketIo.listen(server)
+
+fs.readFile("./my-file.json" , "utf8", function(err, data){
+  if(err){
+    return console.log("Erro ao ler arquivo");
+  }
+  
+  var jsonData = JSON.parse(data); 
+  console.log(jsonData.ENTRADA)
+
+  const Readline = SerialPort.parsers.Readline;
+
+var port = new SerialPort(jsonData.ENTRADA, {
+  baudRate: 9600,
+  dataBits: 8,
+  parity: 'none',
+  stopBits: 1,
+  flowControl: false
+})
+
+
+
+
+function LiberaHorario() {
+  port.write('0;1;1;\r')
+}
+
+function LiberaAntHorario() {
+  port.write('0;2;1;\r')
+}
+
+function CancelaHorario() {
+  port.write('0;1;0;\r')
+}
+
+function CancelaAntHorario() {
+  port.write('0;2;0;\r')
+}
+
+const parser = port.pipe(new Readline({
+  delimiter: '\r'
+}));
+
+LiberaHorario()
+parser.on('data', function (data) {
+  var bits = data;
+  setTimeout(function () {
+    if (bits === "0;1;1;") {
+      CancelaHorario()
+    }
+  }, jsonData.TEMPOGIROHORARIO)
+  
+  setTimeout(function () {
+    if (bits === "0;2;1;") {
+      CancelaAntHorario()
+    }
+  }, jsonData.TEMPOGIROHORARIO)
+  console.log(bits);
+
+  //enviando dados para web
+  io.emit('serial:data',{
+    value: bits
+  })
+
+  
+     //io.sockets.close()
+});
+
+ 
+  
+  //recebendo dados da web
+io.sockets.on('connection', function(socket){
+  console.log('conexão realiza')
+ 
+  console.log(io.sockets.server.engine.clientsCount);
+
+  socket.on('btnAction',function(btn){
+    var dadoweb = btn.value
+    console.log("dadoweb : " + dadoweb)
+   
+    console.log(io.sockets.server.engine.clientsCount);
+
+    if(dadoweb ==="a"){
+      port.write('0;1;1;\r')
+     
+    }else{
+      port.write('0;2;1;\r')
+      console.log("enviou dado")
+      
+    }
+    socket.disconnect(true)
+        })
+       
+
+   })
+
+
+
+
+  // faz o parse para json
+ /**
+  Se precisar em array use:
+  jsonData = Object.keys(jsonData);
+ / */
+});
+
+
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  var bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+  debug('Listening on ' + bind);
+}

@@ -1,0 +1,365 @@
+
+<!DOCTYPE html>
+
+<html>
+
+  <head>
+    <title>Administração</title>
+   
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+ 
+  </head>
+
+  <body>
+  <div class="container">
+    <div style="height: 10vh; background-color:lightgrey;" class="cabeca">
+    <div class="row">
+      <div class="col-sm">
+        One of three columns
+      </div>
+      <div class="col-sm">
+        One of three columns
+      </div>
+      <div class="col-sm">
+        One of three columns
+      </div>
+    </div>
+  </div>
+<div style="height: 80vh;" class="corpo">
+  <h1 style='margin-left: 10px;'>Admistração de promoções</h1>
+  <table class="table table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Nome</th>
+      <th scope="col">Status</th>
+      <th scope="col">Dias de execução</th>
+      <th scope="col">Horario</th>
+      <th scope="col">Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% lista.forEach(lista => {  %>
+
+      <tr value="<%= lista.id %>">
+      <th scope="row"><%= lista.id %></th>
+      <td><%= lista.nome %></td>
+      <td><%= lista.status %></td>
+      <td>  <% if(lista.sabado ===1){ %>
+        Sabado ,  <%}  %>
+        <% if(lista.domingo ===1){ %>
+          Domingo,  <%}  %>
+          <% if(lista.segunda ===1){ %>
+            Segunda ,  <%}  %>
+            <% if(lista.terca ===1){ %>
+              Terça ,  <%}  %>
+              <% if(lista.quarta ===1){ %>
+                Quarta ,  <%}  %>
+                <% if(lista.quinta ===1){ %>
+                  Quinta ,  <%}  %>
+                  <% if(lista.sexta ===1){ %>
+                    Sexta ,  <%}  %>
+      </td>
+      <td><%= lista.horaInicio  %> as <%= lista.horafim  %></td>
+      <td>
+        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#staticBackdrop"
+        data-nome="<%= lista.nome %>" data-id="<%= lista.id %>">
+          Editar
+        </button>
+
+        <% if(lista.tipo_arquivo ==='jpg' || lista.tipo_arquivo ==='jpeg' ||lista.tipo_arquivo ==='gif'   ){ %>
+          <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#staticVisualizarImg"
+        data-nome="<%= lista.nome %>" data-id="<%= lista.id %>" data-arquivo="<%= lista.arquivo %>">
+          Visualizar
+        </button>  <%} else{  %>
+
+        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#staticVisualizar"
+        data-nome="<%= lista.nome %>" data-id="<%= lista.id %>" data-arquivo="<%= lista.arquivo %>">
+          Visualizar
+        </button>  <% }  %>
+      
+        <button type="button" class="btn btn-danger">Excluir</button>
+      </td>
+    </tr>
+    <% }); %>
+   
+  </tbody>
+</table>
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Novo</button>
+</div>
+
+<div style="height: 10vh;" class="footer">
+  <div class="row">
+    <div class="col-sm">
+      One of three columns
+    </div>
+    <div class="col-sm">
+      One of three columns
+    </div>
+    <div class="col-sm">
+      One of three columns
+    </div>
+  </div>
+
+</div>
+
+</div>
+</body>
+
+
+<!-- Modal editar cadastro-->
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">promoção</h5>
+       
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="formEdita"  method='post' id="formEdita">
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Nome:</label>
+            <input type="text" class="form-control" name="nome" id="nome">
+          </div>
+          <p>Rotina</p>
+          <div class="container">
+            <div class="row">
+              <div class="col"><input type="checkbox" name="todos" value="1" class="form-check-input" id="todos">
+                <label  class="form-check-label"  for="todos">Todos</label></div>
+              <div class="col"><input type="checkbox" name="sabado" value="1" class="form-check-input" id="sabado">
+                <label class="form-check-label"  value="1" for="exampleCheck1">Sabado</label></div>
+              <div class="col"> <input type="checkbox" name="domingo" value="1" class="form-check-input" id="domingo">
+                <label class="form-check-label" name="Domingo" for="exampleCheck1">Domingo</label></div>
+              <div class="col"> <input type="checkbox" name="segunda" value="1"  class="form-check-input" id="segunda">
+                <label class="form-check-label" for="exampleCheck1">Segunda</label></div>
+            </div>
+            <div class="row">
+              <div class="col"><input type="checkbox" name="terca" value="1" class="form-check-input" id="terca">
+                <label class="form-check-label" value="1" for="exampleCheck1">Terça</label></div>
+              <div class="col"><input type="checkbox" name="quarta" value="1" class="form-check-input" id="quarta">
+                <label class="form-check-label" for="exampleCheck1">Quarta</label></div>
+              <div class="col"> <input type="checkbox" name="quinta"  value="1" class="form-check-input" id="quinta">
+                <label class="form-check-label" value="1"  for="exampleCheck1">Quinta</label></div>
+              <div class="col"> <input type="checkbox" name="sexta" value="1" class="form-check-input" id="sexta">
+                <label class="form-check-label" for="exampleCheck1">Sexta</label></div>
+            </div>
+            </div>
+           
+            <div class="container">
+              <p>Horario</p>
+              <div class="row">
+                <div class="col-6">
+          <label for="horaInicio">Inicio:</label>
+          <input type="time" id="horaInicio" name="horaInicio">
+        </div>
+        <div class="col-6">
+          <label for="horafim">Termino:</label>
+<input type="time" id="horafim" name="horafim">
+</div>
+</div>
+<p>Não é possivel trocar o Arquivo, efetue um novo Cadastro!</p>
+         </div>
+         <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+          <button type="submit" id="editar" class="btn btn-primary">Gravar</button>
+        </div>
+        </form>
+    </div>
+  </div>
+</div>
+</div>
+
+
+<!-- Modal cadastro-->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Nova promoção</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="novo" method="POST" action="/adm" enctype="multipart/form-data">
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Nome:</label>
+            <input type="text" class="form-control" name="nome" id="nome">
+          </div>
+        
+          <p>Rotina</p>
+          <div class="container">
+            <div class="row">
+              <div class="col"><input type="checkbox" name="todos" value="1" class="form-check-input" id="todos">
+                <label  class="form-check-label"  for="todos">Todos</label></div>
+              <div class="col"><input type="checkbox" name="sabado" value="1" class="form-check-input" id="sabado">
+                <label class="form-check-label"  value="1" for="exampleCheck1">Sabado</label></div>
+              <div class="col"> <input type="checkbox" name="domingo" value="1" class="form-check-input" id="domingo">
+                <label class="form-check-label" name="Domingo" for="exampleCheck1">Domingo</label></div>
+              <div class="col"> <input type="checkbox" name="segunda" value="1"  class="form-check-input" id="segunda">
+                <label class="form-check-label" for="exampleCheck1">Segunda</label></div>
+            </div>
+            <div class="row">
+              <div class="col"><input type="checkbox" name="terca" value="1" class="form-check-input" id="terca">
+                <label class="form-check-label" value="1" for="exampleCheck1">Terça</label></div>
+              <div class="col"><input type="checkbox" name="quarta" value="1" class="form-check-input" id="quarta">
+                <label class="form-check-label" for="exampleCheck1">Quarta</label></div>
+              <div class="col"> <input type="checkbox" name="quinta"  value="1" class="form-check-input" id="quinta">
+                <label class="form-check-label" value="1"  for="exampleCheck1">Quinta</label></div>
+              <div class="col"> <input type="checkbox" name="sexta" value="1" class="form-check-input" id="sexta">
+                <label class="form-check-label" for="exampleCheck1">Sexta</label></div>
+            </div>
+          </div>
+           
+            <div class="container">
+              <p>Horario</p>
+              <div class="row">
+                <div class="col-6">
+          <label for="horaInicio">Inicio:</label>
+          <input type="time" id="horaInicio" name="horaInicio">
+        </div>
+        <div class="col-6">
+          <label for="horafim">Termino:</label>
+<input type="time" id="horafim" name="horafim">
+</div>
+</div>
+<div class="row">
+            <div style="padding:5%;" class="form-group">
+              <label for="arquivo">Arquivo</label>
+              <input type="file" class="form" name="arquivo" id="arquivo" accept="audio/*,video/*,image/*">
+            </div>
+          </div>
+         </div>
+         <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+          <button type="submit" id="novo" class="btn btn-primary">Gravar</button>
+        </div>
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<!-- Modal visualiza video-->
+<div class="modal fade" id="staticVisualizar" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">promoção</h5>
+       
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body"> 
+        
+        <object width="425" height="350">
+          <param id="movie" class="movie" name="movie" />
+          <embed id="movie2" class="movie2"  type="application/x-shockwave-flash" width="425" height="350" />
+          </object>
+
+
+
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- Modal visualiza img-->
+<div class="modal fade" id="staticVisualizarImg" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">promoção</h5>
+       
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body"> 
+        
+        <img width="425" height="350" id="imgArquivo" class="imgArquivo" alt="MDN logo">
+
+
+
+    </div>
+  </div>
+</div>
+</div>
+
+
+
+<script src="/js/jquery.min.js"></script>
+
+
+ <script>
+  $('#staticVisualizar').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget) // Button that triggered the modal
+  var nome = button.data('nome')
+  var id = button.data('id')
+  var arquivo = button.data('arquivo') // Extract info from data-* attributes
+  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+  var modal = $(this)
+  modal.find('.modal-title').text('Visualizando promoção: ' + nome)
+  console.log(arquivo)
+  //modal.find('.modal-body input').val(recipient)
+  var video = document.querySelector("#movie")
+      video.setAttribute("value", arquivo )
+      var video2 = document.querySelector("#movie2")
+      video2.setAttribute("src", arquivo )
+
+
+
+})
+</script>
+
+<script>
+  $('#staticVisualizarImg').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget) // Button that triggered the modal
+  var nome = button.data('nome')
+  var id = button.data('id')
+  var arquivo = button.data('arquivo') // Extract info from data-* attributes
+  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+  var modal = $(this)
+  modal.find('.modal-title').text('Visualizando promoção: ' + nome)
+
+    var img = document.querySelector("#imgArquivo")
+      img.setAttribute("src", arquivo )
+
+})
+</script>
+
+<script>
+  $('#staticBackdrop').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget) // Button that triggered the modal
+  var id = button.data('id')
+  var nome = button.data('nome')
+  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+  var modal = $(this)
+      modal.find('.modal-title').text('Editando: ' + nome)
+      modal.find('#nome').val(nome)
+      console.log(id,nome)      
+     // modal.find('#ap').val(ap_morador)
+
+      var formEdita = document.querySelector("#formEdita")
+      formEdita.setAttribute("action", "/adm/" + id + "?_method=PUT")
+     // modal.find('.foto').html("<img src=" + foto_morador +
+    //    " width='10' height='100' class='card-img' alt='...'>")
+
+    })
+</script>
+
+
+
+<script src="/js/bootstrap.min.js"></script>
+
+</html>

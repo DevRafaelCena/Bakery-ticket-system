@@ -1,0 +1,17 @@
+body {
+  height: 100vh;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+};
+.corpo{
+  height: 60vh;
+  width: 100vw;
+
+};
+#footer {
+  height: 20vh;
+  background-color: red;
+};
