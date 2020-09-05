@@ -18,10 +18,10 @@ Integração com Hardware - Back-end
 
 Front-end
 
-  *Será disponibilizado uma pagina inicial , com passagem de promoções e propagandas, 
-  *Uma pagina para administrar as promocoes e porpagandas.
-  *Uma pagina para configurações.
-  *Uma pagina para liberação remota de entrada e saida. 
+  * Será disponibilizado uma pagina inicial , com passagem de promoções e propagandas, 
+  * Uma pagina para administrar as promocoes e porpagandas.
+  * Uma pagina para configurações.
+  * Uma pagina para liberação remota de entrada e saida. 
 
 
   ### Ainda nem todas as funções estão disponíveis!
@@ -29,9 +29,10 @@ Front-end
   ### tecnologias e libs utilizadas até o momento!
 
     * SQLite
-    * Boosttrap
+    * bootstrap
     * Socket io
     * SerialPort
     * fs
     * xmlbuilder
+    * Express
 
