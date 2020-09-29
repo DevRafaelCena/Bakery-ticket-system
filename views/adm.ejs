@@ -7,7 +7,9 @@
     <title>Administração</title>
    
     <link rel="stylesheet" href="/css/bootstrap.min.css">
- 
+    <link rel="stylesheet" href="/@fortawesome/fontawesome-free/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/@fortawesome/fontawesome-free/css/solid.min.css">
+    <link rel="stylesheet" href="/@fortawesome/fontawesome-free/css/regular.min.css">
   </head>
 
   <body>
@@ -62,23 +64,24 @@
       </td>
       <td><%= lista.horaInicio  %> as <%= lista.horafim  %></td>
       <td>
-        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#staticBackdrop"
+        <a  alt="Editar" data-toggle="modal" data-target="#staticBackdrop"
         data-nome="<%= lista.nome %>" data-id="<%= lista.id %>">
-          Editar
-        </button>
+        <i alt="Editar" class="fas fa-edit"></i> |
+      </a>
 
         <% if(lista.tipo_arquivo ==='jpg' || lista.tipo_arquivo ==='jpeg' ||lista.tipo_arquivo ==='gif'   ){ %>
-          <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#staticVisualizarImg"
+          <a alt="Visualizar"  data-toggle="modal" data-target="#staticVisualizarImg"
         data-nome="<%= lista.nome %>" data-id="<%= lista.id %>" data-arquivo="<%= lista.arquivo %>">
-          Visualizar
-        </button>  <%} else{  %>
+        <i alt="Visualizar" class="far fa-eye"></i> |
+        </a>  <%} else{  %>
 
-        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#staticVisualizar"
+          <a alt="Visualizar" data-toggle="modal" data-target="#staticVisualizar"
         data-nome="<%= lista.nome %>" data-id="<%= lista.id %>" data-arquivo="<%= lista.arquivo %>">
-          Visualizar
-        </button>  <% }  %>
+        <i alt="Visualizar" class="far fa-eye"></i> |
+        </a>  <% }  %>
       
-        <button type="button" class="btn btn-danger">Excluir</button>
+        <a  data-toggle="modal" data-target="#staticDeletar"
+        data-nome="<%= lista.nome %>" data-id="<%= lista.id %>"><i class="fas fa-eraser"></i></a>
       </td>
     </tr>
     <% }); %>
@@ -294,6 +297,37 @@
 </div>
 
 
+<!-- Modal confirmar delete-->
+<div class="modal fade" id="staticDeletar" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">deletar</h5>
+       
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body"> 
+        
+        <form class="formDelete"  method='post' id="formDelete">
+
+          <button type="button" class="btn btn-secondary" data-dismiss="modal"> Fechar</button>
+          <button type="submit" id="novo" class="btn btn-danger">Deletar</button>
+          
+         
+
+
+          </form>
+
+
+
+    </div>
+  </div>
+</div>
+</div>
+
+
 
 <script src="/js/jquery.min.js"></script>
 
@@ -356,6 +390,24 @@
     //    " width='10' height='100' class='card-img' alt='...'>")
 
     })
+</script>
+
+<script>
+  $('#staticDeletar').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget) // Button that triggered the modal
+  var nome = button.data('nome')
+  var id = button.data('id')
+   // Extract info from data-* attributes
+  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+  var modal = $(this)
+  modal.find('.modal-title').text('Deseja deletar a promoção: ' + nome)
+
+  var formDelete = document.querySelector("#formDelete")
+      formDelete.setAttribute("action", "/adm/" + id + "?_method=DELETE")
+
+   
+})
 </script>
 
 

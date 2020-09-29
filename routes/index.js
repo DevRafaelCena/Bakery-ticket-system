@@ -16,14 +16,13 @@ router.get('/', function(req, res, next) {
 
 router.get('/comandos', comandos.Libera)
 
-router.get('/inicial' , async function(req, res, next){
- 
-  res.render('inicial', { title: 'Inicial' })
-})
+router.get('/inicial' , promocoes.getPromocao)
 
 router.get('/adm' , promocoes.Lista)
 router.post('/adm' ,upload.any(), promocoes.store)
 router.put('/adm/:id', promocoes.edit)
+
+router.delete('/adm/:id', promocoes.delete)
 
 
 router.get('/ticket', ticket.GeraTicket)

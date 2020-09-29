@@ -6,11 +6,11 @@ const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, path.join("public", "arquivos"));
   },
-  // Nome do arquivo
-  filename: function (req, file, cb) {
-  console.log(file.mimetype)
-    cb(null, `${Date.now()}-${file.originalname}`);
-  },
+
+// Nome do arquivo
+filename: function (req, file, cb) {
+  cb(null, `${Date.now()}-${file.originalname}`);
+},
 
   /* onFileUploadStart: function(file) {
     console.log("Inside uploads");
